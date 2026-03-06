@@ -7,27 +7,16 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
-    claude-code-nvim = {
-      url = "github:greggh/claude-code.nvim";
-      flake = false;
-    };
   };
 
-  outputs = { self, nixpkgs, nixCats, claude-code-nvim, ... }@inputs: let
+  outputs = { self, nixpkgs, nixCats, ... }@inputs: let
     inherit (nixCats) utils;
     luaPath = ./.;
     forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
 
     # Extra overlays to apply to nixpkgs
     # Empty list since we don't need to override anything
-    dependencyOverlays = [(final: prev: {
-      vimPlugins = prev.vimPlugins // {
-        claude-code-nvim = final.vimUtils.buildVimPlugin {
-          name = "claude-code-nvim";
-          src = claude-code-nvim;
-        };
-      };
-    })];
+    dependencyOverlays = [];
 
     # Extra nixpkgs config like allowUnfree
     extra_pkg_config = {
@@ -102,7 +91,6 @@
 
           # AI assistance
           copilot-vim
-          pkgs.vimPlugins.claude-code-nvim
         ];
       };
     };

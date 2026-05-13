@@ -36,12 +36,12 @@ else
 fi
 
 # --- install nvim flake package -------------------------------------------
-msg "Installing nvim from flake 'github:junhyeokahn/dotfiles?dir=nvim-nix'"
+msg "Installing nvim from flake 'github:shbang91/dotfiles_new?dir=nvim-nix'"
 
 PROFILE_ARGS=(--extra-experimental-features "nix-command flakes")
 
 nix "${PROFILE_ARGS[@]}" profile add --accept-flake-config \
-  'github:junhyeokahn/dotfiles?dir=nvim-nix'
+  'github:shbang91/dotfiles_new?dir=nvim-nix'
 
 source_nix_env
 if command -v nvim >/dev/null 2>&1; then
@@ -59,7 +59,7 @@ download_configs() {
 
   msg "Fetching configs via shallow sparse clone..."
   git -c advice.detachedHead=false clone --depth=1 \
-    --filter=blob:none --sparse https://github.com/junhyeokahn/dotfiles "$tmp/repo"
+    --filter=blob:none --sparse https://github.com/shbang91/dotfiles_new "$tmp/repo"
   ( cd "$tmp/repo"
     git sparse-checkout set nvim-nix
   )
